@@ -1,0 +1,15 @@
+{% include "header.html" %}
+<p>uid={{cas.username}}</p>
+{% if cas.attributes %}
+	<p>Attributes</p>
+	<p><em>
+		{{cas.attributes}}
+	</em>
+	</p>
+{% else %}
+	No attributes
+{% endif %}
+
+<a class="btn btn-large" href="/">Home</a>
+<a class="btn btn-large" href="/logout">Logout</a>
+{% include "footer.html" %}
