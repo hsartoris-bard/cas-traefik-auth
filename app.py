@@ -25,11 +25,6 @@ def secure():
     #if attributes: logging.info(f"CAS attributes {attributes}")
     return render_template("secure.html", cas=cas)
 
-@app.route("/logout")
-def logout():
-    session.clear()
-    return render_template("logout.html")
-
 @app.route("/")
 def bip():
     return render_template("bip.html")
