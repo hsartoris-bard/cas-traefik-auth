@@ -7,6 +7,7 @@ WORKDIR $INSTALL_PATH
 COPY . .
 RUN apk add --no-cache --virtual .build-deps build-base \
 	&& pip install -r requirements.txt \
+	&& pip install Flask-CAS/ \
 	&& find /usr/local \
 		\( -type d -a -name test -o -name tests \) \
 		-o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \

@@ -8,7 +8,8 @@
 <BODY  LINK="#990000" VLINK="#996666" topmargin="8"
 leftmargin="8" BGCOLOR="#ffffff">
 
-<FORM ACTION="ldapibi.php" METHOD="POST" ENCTYPE="x-www-form-urlencoded">
+<!--<FORM ACTION="ldapibi.php" METHOD="POST" ENCTYPE="x-www-form-urlencoded">-->
+<FORM ACTION="/bip/auth" METHOD="GET">
 <script language="JavaScript"><!--
 function MM_preloadImages() { //v2.0
   if (document.images) {
@@ -83,6 +84,7 @@ HEIGHT="716">
 
     <P>&nbsp;</TD>
     <TD VALIGN="TOP" WIDTH="750" BGCOLOR="#ffffff" HEIGHT="420"><BASEFONT SIZE=1>
+	<!--
     <IMG SRC="{{ url_for('static', filename='images/subhead.gif') }}" WIDTH="180" HEIGHT="45" ALIGN="BOTTOM"
     BORDER="0" NATURALSIZEFLAG="3" ALT="Please enter your Bard E-Mail Name &amp; Password....">
 
@@ -93,6 +95,9 @@ HEIGHT="716">
     <P><FONT FACE="Arial, Helvetica, sans-serif"><INPUT TYPE="submit"
     NAME="submit" VALUE="Login"> <INPUT NAME="name" TYPE="reset"
     VALUE="Reset"><BR>
+	-->
+	<FONT FACE="Arial, Helvetica, sans-serif">Login with Bard SSO: <INPUT TYPE="submit" name="submit" 
+	VALUE="Login"> <BR>
     <IMG SRC="{{ url_for('static', filename='images/lock.gif') }}" WIDTH="22" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
     NATURALSIZEFLAG="0"><B>You are currently using Secure HTTPS(BIPVM)</B></FONT></P>
 
@@ -120,6 +125,8 @@ HEIGHT="716">
   </TR>
   <TR>
     <TD COLSPAN="3" BGCOLOR="#ffffff" VALIGN="BOTTOM" HEIGHT="72"><BASEFONT SIZE=1>
+    <img src="{{ url_for('static', filename='images/netscape.gif') }}" WIDTH="88" HEIGHT="31" ALIGN="LEFT" BORDER="0"
+    NATURALSIZEFLAG="3" ALT="Best viewed with Netscape">
     <P><CENTER>&nbsp;</CENTER></P>
 
     <P><CENTER><B><FONT SIZE="+1"><BR>

@@ -11,9 +11,11 @@ app = Flask(__name__)
 cas = CAS(app)
 app.secret_key = "Nie2thahRe1je3eipee4"
 app.config['CAS_SERVER'] = "https://login.bard.edu"
+app.config['SERVER_NAME'] = "cas02.bard.edu:8080"
 app.config['APPLICATION_ROOT'] = "/bip"
+app.config['CAS_AFTER_LOGOUT'] = "https://cas02.bard.edu/bip"
 app.debug = True
-app.config['CAS_AFTER_LOGIN'] = "bip_login"
+#app.config['CAS_AFTER_LOGIN'] = "bip_login"
 
 @app.route("/secure")
 @login_required
@@ -27,11 +29,17 @@ def secure():
 
 @app.route("/")
 def bip():
+    print("got here")
     return render_template("bip.html")
 
 @app.route("/auth")
-@login_required
 def bip_login():
+    # basically cloning the functionality of the @login_required wrapper
+    # but this actually works
+    if cas.username is None:
+        flask.session['CAS_AFTER_LOGIN_SESSION_URL'] = \
+                "https://cas02.bard.edu/bip/auth"
+        return redirect("https://cas02.bard.edu/bip/login/")
     edauser = 'student'
     edapass = 'rh5'
     url_base = "https://bip.bard.edu/cgi-bin/ibi_cgi/ibiweb.exe"
@@ -42,7 +50,9 @@ def bip_login():
             "IBIWF_action=WF_SIGNON",
             "WF_SIGNON_MESSAGE=https://bip.bard.edu/mainmenu.html"
             ]
-    return redirect(f"{url_base}?{'&'.join(params)}")
+    url_final = f"{url_base}?{'&'.join(params)}"
+    flask.current_app.logger.info(f"Redirecting user {cas.username} with url {url_final}")
+    return redirect(url_final)
 
 @app.route("/<path:filename>")
 def static_files(filename):
@@ -56,6 +66,6 @@ app.wsgi_app = DispatcherMiddleware(simple_wsgi, {"/bip": app.wsgi_app})
 
 if __name__ == "__main__":
     app.config['SESSION_TYPE'] = "filesystem"
-    app.config['SERVER_NAME'] = "galactica:5000"
+    app.config['SERVER_NAME'] = "cas02.bard.edu:8080"
     app.debug = True
     app.run()
