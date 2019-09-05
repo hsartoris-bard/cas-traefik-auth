@@ -1,6 +1,6 @@
 FROM python:3.7-alpine
 
-ENV INSTALL_PATH /proxy
+ENV INSTALL_PATH /bip
 RUN mkdir -p $INSTALL_PATH
 WORKDIR $INSTALL_PATH
 
