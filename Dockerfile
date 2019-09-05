@@ -21,4 +21,4 @@ RUN apk add --no-cache --virtual .build-deps build-base \
 	&& apk add --virtual .rundeps $runDeps \
 	&& apk del .build-deps
 
-CMD gunicorn -w 1 -b 0.0.0.0:8080 app:app
+ENTRYPOINT gunicorn -w 1 -b 0.0.0.0:8080 app:app

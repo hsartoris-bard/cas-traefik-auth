@@ -13,7 +13,7 @@ app.secret_key = "Nie2thahRe1je3eipee4"
 app.config['CAS_SERVER'] = "https://login.bard.edu"
 app.config['APPLICATION_ROOT'] = "/bip"
 app.debug = True
-app.config['CAS_AFTER_LOGIN'] = "auth"
+app.config['CAS_AFTER_LOGIN'] = "bip_login"
 
 @app.route("/secure")
 @login_required
