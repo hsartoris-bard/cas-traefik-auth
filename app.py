@@ -2,27 +2,18 @@ from os import path, getcwd
 import flask
 from flask import Flask, render_template, session, redirect, send_from_directory, Response
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
-#from sassutils.wsgi import SassMiddleware
 
 from flask_cas import CAS, login, logout, login_required
 
 import logging
 
 app = Flask(__name__)
-#app.wsgi_app = SassMiddleware(app.wsgi_app,
-#        { 'app': ('static/sass', 'static/css', '/static/css') }
-#        )
-#cas = CAS(app, '/cas')
 cas = CAS(app)
 app.secret_key = "Nie2thahRe1je3eipee4"
-app.config['CAS_SERVER'] = "https://cas.k8s.bard.edu"
-app.config['APPLICATION_ROOT'] = "/proxy"
+app.config['CAS_SERVER'] = "https://login.bard.edu"
+app.config['APPLICATION_ROOT'] = "/bip"
 app.debug = True
-#app.config['CAS_AFTER_LOGIN'] = "secure"
-
-@app.route("/")
-def main():
-    return render_template("index.html")
+app.config['CAS_AFTER_LOGIN'] = "auth"
 
 @app.route("/secure")
 @login_required
@@ -38,11 +29,6 @@ def secure():
 def logout():
     session.clear()
     return render_template("logout.html")
-
-#@app.route("/auth")
-#def auth():
-#    #return Response("{'a':'b'}", status=201, mimetype='application/json')
-#    return "", 200
 
 @app.route("/")
 def bip():
