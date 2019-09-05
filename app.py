@@ -42,7 +42,7 @@ def bip_login():
             "IBIWF_action=WF_SIGNON",
             "WF_SIGNON_MESSAGE=https://bip.bard.edu/mainmenu.html"
             ]
-    return redirect(f"{url_base}?{'&'.join(params)")
+    return redirect(f"{url_base}?{'&'.join(params)}")
 
 @app.route("/<path:filename>")
 def static_files(filename):
