@@ -44,11 +44,11 @@ def logout():
 #    #return Response("{'a':'b'}", status=201, mimetype='application/json')
 #    return "", 200
 
-@app.route("/bip")
+@app.route("/")
 def bip():
     return render_template("bip.html")
 
-@app.route("/bip/login")
+@app.route("/auth")
 @login_required
 def bip_login():
     edauser = 'student'
@@ -63,44 +63,6 @@ def bip_login():
             ]
     return redirect(f"{url_base}?{'&'.join(params)")
 
-@app.route("/auth/<service>")
-def auth_path(service):
-    debug = flask.current_app.logger.debug
-    print("CAS info:")
-    print(dir(cas))
-    #print(f"CAS username is None: {cas.username is None}")
-    #if 'CAS_USERNAME' not in flask.session:
-    if cas.username is None:
-        debug("No CAS username detected; will redirect to login")
-        env = flask.request.environ
-        #flask.session['TRAEFIK_HOST'] = "https://redis.k8s.bard.edu/"
-        flask.session['CAS_AFTER_LOGIN_SESSION_URL'] = "https://redis.k8s.bard.edu/"
-        #flask.session['TRAEFIK_HOST'] = \
-        #        f"{env['HTTP_X_FORWARDED_PROTO']}://{env['HTTP_X_FORWARDED_HOST']}{env['HTTP_X_FORWARDED_URI']}"
-        #debug(f"Storing return-to host as {flask.session['TRAEFIK_HOST']}")
-
-        return redirect(flask.url_for('cas.login', 
-            service=service,
-            _external=True))
-    #print(f"script root: {flask.request.script_root}\nfull_path:{flask.request.full_path}")
-    #print(f"{cas.username:}")
-    #return redirect("/login")
-
-    #if 'TRAEFIK_HOST' in flask.session:
-    #    redir = flask.session.pop('TRAEFIK_HOST')
-    #    debug(f"Redirecting to {redir}")
-    #    del flask.session['TRAEFIK_HOST']
-    #    return redirect(redir, 302)
-
-    response = Response("OK", 200)
-    response.headers['X-Auth-User'] = cas.username
-    return response
-
-@app.route("/test")
-def test_auth():
-    print("got here")
-    return "OK", 200
-
 @app.route("/<path:filename>")
 def static_files(filename):
     return send_from_directory(path.join(getcwd(), 'static'), filename)
@@ -109,7 +71,7 @@ def simple_wsgi(env, resp):
     resp(b'200 OK', [(b'Content-Type', b'text/plain')])
     return [b'Hello WSGI']
 
-app.wsgi_app = DispatcherMiddleware(simple_wsgi, {"/proxy": app.wsgi_app})
+app.wsgi_app = DispatcherMiddleware(simple_wsgi, {"/bip": app.wsgi_app})
 
 if __name__ == "__main__":
     app.config['SESSION_TYPE'] = "filesystem"
