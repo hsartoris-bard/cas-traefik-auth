@@ -29,7 +29,6 @@ def secure():
 
 @app.route("/")
 def bip():
-    print("got here")
     return render_template("bip.html")
 
 @app.route("/auth")
